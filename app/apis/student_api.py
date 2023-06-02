@@ -18,4 +18,26 @@ class courseAPI(Resource):
         db.session.add(student)
         db.session.commit()
         return student, 201
-        
+    
+@ns.route('/student/<int:id>')
+class IdStudentAPI(Resource):
+    
+    @ns.marshal_with(student_model)
+    def get(self,id):
+        student = Student.query.get(id)
+        return student
+    
+    @ns.marshal_with(student_model)
+    @ns.expect(student_input_model)
+    def put(self,id):
+        student = Student.query.get(id)
+        student.name = ns.payload['name']
+        student.course_id = ns.payload['course_id']
+        db.session.commit()
+        return student
+    
+    def delete(self,id):
+        student = Student.query.get(id)
+        db.session.delete(student)
+        db.session.commit()
+        return {}, 204
