@@ -3,11 +3,17 @@ from flask_restx import Resource, Namespace
 from app.models.course import Course
 from app.Models.course_mod import course_model,course_input_model
 from app.extensions import db
+from flask_jwt_extended import jwt_required, get_jwt_identity
 # ns = Namespace('Mansy')
+
 @ns.route('/courses')
 class courseAPI(Resource):
+    method_decorators = [jwt_required()]
+
+    @ns.doc(security='jsonWebToken', description='Get all courses')
     @ns.marshal_list_with(course_model)
     def get(self):
+        print(get_jwt_identity())
         return Course.query.all()
     
 
