@@ -13,27 +13,27 @@ class courseAPI(Resource):
     @ns.doc(security='jsonWebToken', description='Get all courses')
     @ns.marshal_list_with(course_model)
     def get(self):
-        print(get_jwt_identity())
+        # print(get_jwt_identity())
         return Course.query.all()
     
-
+    @ns.doc(security='jsonWebToken')
     @ns.expect(course_input_model)
     @ns.marshal_with(course_model)
     def post(self):
-        print(ns.payload)
-        course = Course(name=ns.payload['name'])
+        course = Course(name=ns.payload['name'], instructor_id = ns.payload['instructor_id'])
         db.session.add(course)
         db.session.commit()
         return course, 201
 
 @ns.route('/courses/<int:id>')
 class IdCourseAPI(Resource):
-    
+    @ns.doc(security='jsonWebToken')
     @ns.marshal_with(course_model)
     def get(self,id):
         course = Course.query.get(id)
         return course
     
+    @ns.doc(security='jsonWebToken')
     @ns.marshal_with(course_model)
     @ns.expect(course_input_model)
     def put(self,id):
@@ -42,6 +42,7 @@ class IdCourseAPI(Resource):
         db.session.commit()
         return course
     
+    @ns.doc(security='jsonWebToken')
     def delete(self,id):
         course = Course.query.get(id)
         db.session.delete(course)

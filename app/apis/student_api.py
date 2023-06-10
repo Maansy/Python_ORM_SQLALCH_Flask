@@ -6,10 +6,12 @@ from app.Models.student_mod import student_model,student_input_model
 # ns = Namespace('Mansy')
 @ns.route('/student')
 class courseAPI(Resource):
+    @ns.doc(security='jsonWebToken')
     @ns.marshal_list_with(student_model)
     def get(self):
         return Student.query.all()
     
+    @ns.doc(security='jsonWebToken')
     @ns.expect(student_input_model)
     @ns.marshal_with(student_model)
     def post(self):
@@ -21,12 +23,13 @@ class courseAPI(Resource):
     
 @ns.route('/student/<int:id>')
 class IdStudentAPI(Resource):
-    
+    @ns.doc(security='jsonWebToken')
     @ns.marshal_with(student_model)
     def get(self,id):
         student = Student.query.get(id)
         return student
     
+    @ns.doc(security='jsonWebToken')
     @ns.marshal_with(student_model)
     @ns.expect(student_input_model)
     def put(self,id):
@@ -36,6 +39,7 @@ class IdStudentAPI(Resource):
         db.session.commit()
         return student
     
+    @ns.doc(security='jsonWebToken')
     def delete(self,id):
         student = Student.query.get(id)
         db.session.delete(student)

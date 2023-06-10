@@ -7,7 +7,6 @@ from app.apis.user_api import *
 
 def create_app():
     app = Flask(__name__)
-
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite3'
     app.config['JWT_SECRET_KEY'] = 'thisissecretkey'
     api.init_app(app)

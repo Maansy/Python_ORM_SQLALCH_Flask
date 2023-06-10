@@ -10,12 +10,9 @@ authorizations = {
     }
 }
 
-api = Api()
+api = Api(doc='/api',title='School API',\
+          description='This is a school api, that you can add, remove or edit courses or student info',\
+            default_swagger_filename = '')
 db = SQLAlchemy()
 ns = Namespace('Mansy', authorizations=authorizations)
 jwt = JWTManager()
-# count = 2
-# fruit = 'apple'
-
-# print(f'{count = }')
-# print(f'{fruit = }')
