@@ -5,10 +5,12 @@ from app.extensions import api
 course_model = api.model('Course',{
     'id': fields.Integer,
     'name': fields.String,
+    'instructor_id': fields.Integer
     # 'students': fields.List(fields.Nested(student_model))
 })
 
 
 course_input_model = api.model('CourseInput',{
     'name' : fields.String,
+    'instructor_id': fields.Integer
 })
